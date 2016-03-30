@@ -1,0 +1,165 @@
+@prefix : <http://costezki.ro/ontology/skos-evolution#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skos-xl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix skos-evo: <http://costezki.ro/ontology/skos-evolution#> .
+@base <http://costezki.ro/ontology/skos-evolution> .
+
+<http://costezki.ro/ontology/skos-evolution> rdf:type owl:Ontology ;
+                                             
+                                             rdfs:comment "This intology enables representation of the exolutionary relatrions in SKOS vocabularies."^^rdfs:Literal ;
+                                             
+                                             owl:imports <http://costezki.ro/interval-ontology/1.0.0> ;
+                                             
+                                             owl:versionIRI <http://costezki.ro/ontology/skos-evolution/1.0> ;
+                                             
+                                             owl:imports <http://www.w3.org/2008/05/skos-xl> .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://costezki.ro/ontology/skos-evolution#concurrent
+
+skos-evo:concurrent rdf:type owl:ObjectProperty ;
+                    
+                    rdfs:subPropertyOf skos:related .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#hasInstance
+
+skos-evo:hasInstance rdf:type owl:ObjectProperty ;
+                     
+                     rdfs:comment "a particular version of the Abstract Concept" ;
+                     
+                     owl:inverseOf skos-evo:isInstanceOf ;
+                     
+                     rdfs:subPropertyOf skos:broader .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#hasPart
+
+skos-evo:hasPart rdf:type owl:ObjectProperty ;
+                 
+                 rdfs:comment "a meronimic relation in broad sense (any kind of part)" ;
+                 
+                 owl:inverseOf skos-evo:isPartOf ;
+                 
+                 rdfs:subPropertyOf skos:broader .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#isInstanceOf
+
+skos-evo:isInstanceOf rdf:type owl:ObjectProperty ;
+                      
+                      rdfs:comment "represents the relationship between the Abstract Concept or Scheme and an Instance Concept or Scheme" ;
+                      
+                      rdfs:subPropertyOf skos:narrower .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#isPartOf
+
+skos-evo:isPartOf rdf:type owl:ObjectProperty ;
+                  
+                  rdfs:comment "equivalent to dct:PartOf? any kind of part" ;
+                  
+                  rdfs:subPropertyOf skos:narrower .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#predecessor
+
+skos-evo:predecessor rdf:type owl:ObjectProperty ;
+                     
+                     owl:inverseOf skos-evo:successor ;
+                     
+                     rdfs:subPropertyOf <http://www.isfla.org/interval-ontology#before> ,
+                                        skos:related ;
+                     
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( skos:Concept
+                                                 skos:ConceptScheme
+                                               )
+                                 ] ;
+                     
+                     rdfs:range [ rdf:type owl:Class ;
+                                  owl:unionOf ( skos:Concept
+                                                skos:ConceptScheme
+                                              )
+                                ] .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#successor
+
+skos-evo:successor rdf:type owl:ObjectProperty ;
+                   
+                   rdfs:subPropertyOf <http://www.isfla.org/interval-ontology#after> ,
+                                      skos:related .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://costezki.ro/ontology/skos-evolution#ConceptInstance
+
+skos-evo:ConceptInstance rdf:type owl:Class ;
+                         
+                         owl:equivalentClass [ rdf:type owl:Class ;
+                                               owl:intersectionOf ( skos:Concept
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty skos-evo:isInstanceOf ;
+                                                                      owl:someValuesFrom skos:Concept
+                                                                    ]
+                                                                  )
+                                             ] ;
+                         
+                         rdfs:subClassOf <http://www.isfla.org/interval-ontology#Interval> ,
+                                         skos:Concept ;
+                         
+                         rdfs:comment "a particular version of the concept defined within certain temporal limits (at leaast a creation time)" .
+
+
+
+###  http://costezki.ro/ontology/skos-evolution#ConceptSchemeInstance
+
+skos-evo:ConceptSchemeInstance rdf:type owl:Class ;
+                               
+                               owl:equivalentClass [ rdf:type owl:Class ;
+                                                     owl:intersectionOf ( skos:ConceptScheme
+                                                                          [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty skos-evo:isInstanceOf ;
+                                                                            owl:someValuesFrom skos:ConceptScheme
+                                                                          ]
+                                                                        )
+                                                   ] ;
+                               
+                               rdfs:subClassOf <http://www.isfla.org/interval-ontology#Interval> ,
+                                               skos:ConceptScheme ;
+                               
+                               rdfs:comment "a particular version of the concept scheme covering a set of Concept Instances" .
+
+
+
+
+###  Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net
+
