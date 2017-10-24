@@ -1,0 +1,12 @@
+#+ summary: summary
+#+ endpoint: ednpoint
+#+ mime: mime
+#+ tags:
+#+   - tag
+#+ enumerate:
+#+   - enumerate
+#+ method: method
+#+ pagination: pagination
+
+select *
+{?s ?p ?o}
